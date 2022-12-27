@@ -72,3 +72,29 @@ const menu = [
     desc: `Red bean paste dessert, serving with honey.`,
   },
 ];
+
+let btnContainer = document.querySelector(".btn-container");
+let foodContainer = document.querySelector(".food-container");
+let buttons = btnContainer.getElementsByTagName("button");
+
+function returnFoodCategory() {
+  let foodCategory = [];
+  for (let index = 0; index < menu.length; index++) {
+    let tempCategory = menu[index].category;
+    if (!foodCategory.includes(tempCategory)) {
+      foodCategory.push(tempCategory);
+    }
+  }
+  return foodCategory;
+}
+
+function returnBtnCategory() {
+  let btnCategory = [];
+  for (let index = 0; index < buttons.length; index++) {
+    let tempBtnCategory = buttons[index].innerText;
+    btnCategory.push(tempBtnCategory);
+  }
+  return btnCategory;
+}
+
+function getFoods() {}
