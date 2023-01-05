@@ -74,8 +74,73 @@ const menu = [
 ];
 
 let btnContainer = document.querySelector(".btn-container");
-let foodContainer = document.querySelector(".food-container");
+let foodContainer = document.querySelector(".food-row");
 let buttons = btnContainer.getElementsByTagName("button");
+buttons = Array.from(buttons);
+let foodList = getFoods();
+let btnCategorys = returnBtnCategory();
+
+for (let i = 0; i < buttons.length; i++) {
+  let clicked_btn = getId(buttons[i].id);
+  buttons[i].addEventListener("click", function () {
+    for (let j = 0; j < menu.length; j++) {
+      if (clicked_btn == "all") {
+        foodContainer.innerHTML = "";
+        for (let k = 0; k < foodList.length; k++) {
+          for (let l = 0; l < foodList[k].length; l++) {
+            let food = foodList[k][l];
+            foodContainer.innerHTML += `<div class="menu-items col-lg-6 col-sm-12">
+            <img
+              src=${food.img}
+              alt=${food.title}
+              class="photo"
+            />
+            <div class="menu-info">
+              <div class="menu-title">
+                <h4>${food.title}</h4>
+                <h4 class="price">${food.price}</h4>
+              </div>
+              <div class="menu-text">
+                ${food.desc}
+              </div>
+            </div>
+          </div>
+    `;
+          }
+        }
+      } else {
+        foodContainer.innerHTML = "";
+        let foodListByCategory = getFoodsByCategory(clicked_btn);
+        for (let index = 0; index < foodListByCategory.length; index++) {
+          let food = foodListByCategory[index];
+          foodContainer.innerHTML += `<div class="menu-items col-lg-6 col-sm-12">
+          <img
+            src=${food.img}
+            alt=${food.title}
+            class="photo"
+          />
+          <div class="menu-info">
+            <div class="menu-title
+            ">
+              <h4>${food.title}</h4>
+              <h4 class="price">${food.price}</h4>
+            </div>
+            <div class="menu-text">
+              ${food.desc}
+            </div>
+          </div>
+        </div>
+  `;
+        }
+      }
+    }
+  });
+}
+
+function getId(clicked_id) {
+  let id = clicked_id;
+  return id;
+}
 
 function returnFoodCategory() {
   let foodCategory = [];
@@ -97,4 +162,22 @@ function returnBtnCategory() {
   return btnCategory;
 }
 
-function getFoods() {}
+function getFoods() {
+  let foodCategory = returnFoodCategory();
+  let foodList = [];
+  for (let index = 0; index < foodCategory.length; index++) {
+    let tempFood = menu.filter((food) => food.category === foodCategory[index]);
+    foodList.push(tempFood);
+  }
+  return foodList;
+}
+
+function getFoodsByCategory(category) {
+  let foodList = [];
+  for (let index = 0; index < menu.length; index++) {
+    if (menu[index].category === category) {
+      foodList.push(menu[index]);
+    }
+  }
+  return foodList;
+}
